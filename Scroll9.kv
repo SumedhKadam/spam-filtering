@@ -1,0 +1,110 @@
+ScreenManagement:
+    MainScreen:
+    AnotherScreen:
+
+<MainScreen>:
+    #name: 'main'
+    FloatLayout:
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Image:
+            source: 'youtube2.png'
+            pos_hint: {'x': 0, 'top': 1}
+            size_hint: 1, 0.2
+            allow_stretch: True
+            keep_ratio: False
+
+        Label:
+            text: 'Link of the Video:'
+            color: 0, 0, 0, 1
+            pos_hint: {'x': 0.1, 'y': 0.45}
+            size_hint: None, None
+
+        TextInput:
+            id: video_link
+            multiline: False
+            background_color: 1, 0, 0, 0.8
+            foreground_color: 1, 1, 1, 1
+            pos_hint: {'x': 0.3, 'y': 0.51}
+            size_hint: 0.6, 0.05
+
+        Button:
+            pos_hint: {'x': 0.4, 'y': 0.25}
+            size_hint: 0.2, 0.1
+            text: 'Submit'
+            background_normal: 'youtube3.png'
+            background_down: 'youtube4.png'
+            font_size: 25
+            on_press: self.parent.parent.retrieve_comments(video_link.text)
+            on_release: app.root.current = 'another'
+            #app.retrieve_comments(video_link.text)
+
+
+
+<AnotherScreen>:
+    name: 'another'
+    on_pre_enter: root.buildidk()
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Image:
+        source: 'youtube2.png'
+        pos_hint: {'x': 0, 'top': 1}
+        size_hint: 1, 0.2
+        allow_stretch: True
+        keep_ratio: False
+
+    GridLayout:
+        cols:1
+        pos_hint: {'x': 0.05, 'y': 0.1}
+        size_hint: 1, 0.7
+        padding: 5
+        spacing: 20
+
+        ScrollView:
+            size_hint: None, None
+            size: 700, 320
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            bar_width: 7
+            scroll_type: ['bars', 'content']
+
+            GridLayout:
+                cols: 1
+                padding: 10
+                spacing: 20
+                height: self.minimum_height
+                size_hint: None, None
+                do_scroll_x: False
+                id: container
+
+        Button:
+            text: 'Delete'
+            size_hint: None, None
+            width: 700
+            on_release: root.delete_comments()
+
+
+<ToggleButton>
+    on_state: self.parent.parent.parent.parent.on_state(self)
+    size_hint: None, None
+    size: 680, 40
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1] + 10
+    background_normal: 'youtube5.png'
+    background_down: 'youtube4.png'
+    padding_x: 10
+
+<Button>
+    background_normal: 'youtube3.png'
+    background_down: 'youtube4.png'
